@@ -6,12 +6,16 @@ sudo apt-get -y update
 # Install Nginx
 sudo apt-get -y install nginx
 
+# Start the Nginx service and allowing it on firewall
+sudo service nginx start
+sudo ufw allow "Nginx HTTP"
+
 # Ensure correct permissions and ownership for the web root directory
-sudo chown -R www-data:www-data /var/www/html
-sudo chmod -R 755 /var/www/html
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
 
 # Modify the default index.html file
-echo 'Hello World!' | sudo tee /var/www/html/index.html
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 
 # Start the Nginx service
-sudo service nginx start
+sudo service nginx restart
