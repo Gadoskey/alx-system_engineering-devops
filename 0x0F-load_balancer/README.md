@@ -19,3 +19,4 @@ load balancer on to manage both web servers.
   installs and configures HAproxy version 1.5 on a server.
     * Enables management via the init script.
     * Requests are distributed using a round-robin algorithm.
+* **3. Puppet
