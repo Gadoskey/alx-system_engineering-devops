@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 # configure nginx to run on port 80
 
-sudo sed -i '/server {/a \    listen 80;\n    server_name localhost;'/etc/nginx/sites-available/default
+#sudo sed -i '/server {/a \    listen 80;\n    server_name localhost;'/etc/nginx/sites-available/default
+# Go to sites-enabled folder for Nginx
+cd /etc/nginx/sites-enabled/ || exit;                                                                                                                             
+# Delete the default file                                                                                                                               
+rm default;                                                                                                                                               
+# Create symbolic link to the deafult file in sites-available                                                                                             
+ln -s /etc/nginx/sites-available/default default;                                                                                                         
+# Restart Nginx                                                                                                                                           
 sudo service nginx restart
