@@ -8,6 +8,12 @@ fi
 # MySQL root password
 MYSQL_ROOT_PASSWORD=$1
 
+# Date format for the archive name
+day=$(date +"%d")
+month=$(date +"%m")
+year=$(date +"%Y")
+file_name="$day-$month-$year.tar.gz"
+
 # Generate MySQL dump
 mysqldump --all-databases -u root --password="$MYSQL_ROOT_PASSWORD" > backup.sql
 
@@ -17,12 +23,6 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-# Date format for the archive name
-day=$(date +"%d")
-month=$(date +"%m")
-year=$(date +"%Y")
-file_name="$day-$month-$year.tar.gz"
-
 # Compress the dump file
 tar -czvf "$file_name" backup.sql
 
@@ -31,6 +31,15 @@ if [ $? -ne 0 ]; then
 	echo "Compression failed!"
 	exit 1
 fi
+# Check if the tar.gz file is properly gzipped
+file_output=$(file "$file_name")
+if [[ "$file_output" != *"gzip compressed data"* ]]; then
+	echo "The tar.gz file is not properly gzipped!"
+	rm -f "$file_name"  # Cleanup the invalid tar.gz file
+	rm -f backup.sql  # Cleanup the dump file
+	exit 1
+fi
+
 
 # Remove the uncompressed dump file
 rm backup.sql
