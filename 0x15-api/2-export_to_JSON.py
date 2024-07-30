@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     with open("{}.json".format(sys.argv[1]), "w") as json_file:
         json.dump({user_id: [{
-            "task": todo.get("title"),
-            "completed": todo.get("completed"),
-            "username": username
+                "task": todo.get("title"),
+                "completed": todo.get("completed"),
+                "username": username
             } for todo in todos]}, json_file)
