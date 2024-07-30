@@ -12,7 +12,8 @@ if __name__ == "__main__":
     user = requests.get(url + "users/{}".format(sys.argv[1])).json()
     todos = requests.get(url + "todos", params={"userId": sys.argv[1]}).json()
 
-    completed = [todo.get("title") for todo in todos if todo.get("completed") is True]
-    print("Employee {} is done with tasks({}/{}):".format(
-        user.get("name"), len(completed), len(todos)))
-    [print("\t {}".format(tasks_completed)) for tasks_completed in completed]
+    with open("{}.csv".format(sys.argv[1]), "w", newline="") as csv_file:
+        writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
+        [writer.writerow(
+            [sys.argv[1], username, todo.get("completed"), todo.get("title")]
+        ) for todo in todos]
