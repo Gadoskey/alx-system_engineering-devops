@@ -23,6 +23,7 @@ def count_words(subreddit, word_list, after='', word_dict={}):
         for word in wordict:
             if word[1]:
                 print('{}: {}'.format(word[0], word[1]))
+        B
         return None
 
     url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
